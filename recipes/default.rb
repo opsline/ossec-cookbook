@@ -65,11 +65,17 @@ template "#{node['ossec']['user']['dir']}/etc/ossec.conf" do
 end
 
 case node['platform']
-when "arch"
-  template "/usr/lib/systemd/system/ossec.service" do
+  when "arch"
+    template "/usr/lib/systemd/system/ossec.service" do
     source "ossec.service.erb"
     owner "root"
     mode 0644
+  end
+  else
+    template "/etc/init.d/ossec" do
+      source "ossec.rc.erb"
+      owner "root"
+      mode 0755
   end
 end
 
